@@ -21,8 +21,9 @@ w = nx.adjacency_matrix(G).todense()
 max_cut = Maxcut(w)
 qp = max_cut.to_quadratic_program()
 print(qp.prettyprint())
-#qubit_op, offset = max_cut.get_operator(w)
+
+qubit_op, offset = qp.to_ising()
 
 # View the Hamiltonian
-#print("Cost Hamiltonian in Pauli form:")
-#print(qubit_op)
+print("Cost Hamiltonian in Pauli form:")
+print(qubit_op)
