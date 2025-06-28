@@ -14,4 +14,4 @@ def draw_graph(G, title):
     plt.show()
 
 # Draw all graphs
-draw_graph(G_A, "Graph A: 4-node Dense (Complete)")    
+draw_graph(G_A, "Graph A: 4-node complete graph")    
