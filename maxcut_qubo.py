@@ -1,7 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 # -------------------------------
-# STEP 1: Build and Visualize Graph A (Complete Graph)
+# STEP 1: Build and Visualize Graph A
 # -------------------------------
 G = nx.complete_graph(4)
 pos = nx.spring_layout(G, seed=42)
