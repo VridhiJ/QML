@@ -1,7 +1,9 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
+
 from qiskit_optimization.applications import Maxcut
+from qiskit.circuit.library import QAOAAnsatz
 
 # -------------------------------
 # STEP 1: Build and Visualize Graph A
@@ -22,8 +24,21 @@ max_cut = Maxcut(w)
 qp = max_cut.to_quadratic_program()
 print(qp.prettyprint())
 
+# Hamiltonian representation
 qubit_op, offset = qp.to_ising()
 
 # View the Hamiltonian
-print("Cost Hamiltonian in Pauli form:")
+print("Cost function Hamiltonian in Pauli form:")
 print(qubit_op)
+
+# -------------------------------
+# STEP 3: Setup QAOA
+# -------------------------------
+
+circuit = QAOAAnsatz(cost_operator=qubit_op, reps=2)
+circuit.measure_all()
+
+circuit.draw('mpl')
+print(circuit.parameters)
+plt.show()
+
