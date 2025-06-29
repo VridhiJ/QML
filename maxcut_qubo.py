@@ -79,4 +79,11 @@ result = minimize(
 print("Final cost:", result.fun)
 print("Optimal parameters:", result.x)
 
+plt.plot(objective_func_vals, marker='o')
+plt.xlabel("Iteration")
+plt.ylabel("Cost ⟨H⟩")
+plt.title("QAOA Convergence on Graph A")
+plt.grid(True)
+plt.show()
+
 
