@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 from qiskit_optimization.applications import Maxcut
 from qiskit.circuit.library import QAOAAnsatz
 
+from qiskit.primitives import Estimator
+from scipy.optimize import minimize
+import numpy as np
+
 # -------------------------------
 # STEP 1: Build and Visualize Graph A
 # -------------------------------
@@ -36,9 +40,42 @@ print(qubit_op)
 # -------------------------------
 
 circuit = QAOAAnsatz(cost_operator=qubit_op, reps=2)
-circuit.measure_all()
 
-circuit.draw('mpl')
-print(circuit.parameters)
+# For drawing, so that estimator doesn't crash due to measurements
+circuit_with_measure = circuit.copy()
+circuit_with_measure.measure_all()
+
+# Draw circuit, with measurement
+circuit_with_measure.draw('mpl')
 plt.show()
+
+# -------------------------------
+# STEP 4: Cost Function Estimator
+# -------------------------------
+
+estimator = Estimator()
+objective_func_vals = []  # store cost per iteration
+
+def cost_func_estimator(params):
+    job = estimator.run([circuit], [qubit_op], [params])
+    result = job.result()
+    cost = result.values[0]
+    objective_func_vals.append(cost)
+    return cost
+
+# For 2 reps: [γ₁, β₁, γ₂, β₂]
+initial_gamma = np.pi
+initial_beta = np.pi/2
+init_params = [initial_gamma, initial_beta, initial_gamma, initial_beta]
+
+result = minimize(
+    cost_func_estimator,
+    x0=init_params,
+    method='COBYLA',
+    tol=1e-2
+)
+
+print("Final cost:", result.fun)
+print("Optimal parameters:", result.x)
+
 
