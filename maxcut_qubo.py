@@ -93,6 +93,12 @@ plt.title("QAOA Convergence on Graph A")
 plt.grid(True)
 plt.show()
 
+plt.plot(objective_func_vals, marker='o')
+plt.xlabel("Iteration")
+plt.ylabel("Cost ⟨H⟩")
+plt.title("QAOA Convergence on Graph A")
+plt.grid(True)
+plt.savefig("results/graph_a_convergence.png", dpi=300)
 
 
 # -------------------------------
