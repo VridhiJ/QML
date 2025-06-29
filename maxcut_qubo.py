@@ -42,6 +42,7 @@ print(qubit_op)
 circuit = QAOAAnsatz(cost_operator=qubit_op, reps=2)
 
 # For drawing, so that estimator doesn't crash due to measurements
+# since we are feeding circuit into unitary-only backend
 circuit_with_measure = circuit.copy()
 circuit_with_measure.measure_all()
 
