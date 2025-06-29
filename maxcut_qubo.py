@@ -9,6 +9,9 @@ from qiskit.primitives import Estimator
 from scipy.optimize import minimize
 import numpy as np
 
+import json
+from pathlib import Path
+
 # -------------------------------
 # STEP 1: Build and Visualize Graph A
 # -------------------------------
@@ -76,6 +79,10 @@ result = minimize(
     tol=1e-2
 )
 
+# -------------------------------
+# STEP 5: Plot QAOA convergence
+# -------------------------------
+
 print("Final cost:", result.fun)
 print("Optimal parameters:", result.x)
 
@@ -86,4 +93,18 @@ plt.title("QAOA Convergence on Graph A")
 plt.grid(True)
 plt.show()
 
+
+
+# -------------------------------
+# STEP 6: Save Output for Transfer
+# -------------------------------
+
+Path("results").mkdir(exist_ok=True)
+
+with open("results/graph_a_params.json", "w") as f:
+    json.dump({
+        "optimal_params": result.x.tolist(),
+        "final_cost": result.fun,
+        "cost_trajectory": objective_func_vals
+    }, f)
 
